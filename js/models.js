@@ -25,7 +25,8 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    let url = new URL(this.url);
+    return url.hostname;
   }
 }
 
@@ -74,6 +75,7 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    console.log('addStory called with user',user,'newStory',newStory);
     // UNIMPLEMENTED: complete this function!
     const response = await axios.post(`${BASE_URL}/stories`, {
       token: user.loginToken,
@@ -83,7 +85,7 @@ class StoryList {
     console.log('response from server:',response);
 
     const story = new Story(response.data.story);
-    this.stories.push(story);
+    this.stories.unshift(story);
     return story;
   }
 }

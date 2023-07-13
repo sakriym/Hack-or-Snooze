@@ -51,19 +51,19 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** Takes a single story, generates HTML and puts on page */
+/** Takes a single story, generates HTML and puts at the top of the story list */
 
 function putStoryOnPage(story) {
   console.log('putStoryOnPage called with story', story);
   const $story = generateStoryMarkup(story);
-  $allStoriesList.append($story);
+  $allStoriesList.prepend($story);
   //TODO: Decide whether to update the user's view here
 }
 
 /** Pulls data from the add story form, adds it to the storyList and
  *  renders it to the DOM
  */
-async function handleAddStorySubmit(evt) {
+async function addStory(evt) {
   console.log('handle Add Story And Submit: ', evt);
   evt.preventDefault();
   //get form data
@@ -76,9 +76,9 @@ async function handleAddStorySubmit(evt) {
     url: url,
   };
   //call addStory
-  const story = await storyList.addStory(newStoryData);
+  const story = await storyList.addStory(currentUser, newStoryData);
   //put on page
   putStoryOnPage(story);
 }
 
-$addStoryForm.on('submit', handleAddStorySubmit);
+$addStoryForm.on('submit', addStory);
