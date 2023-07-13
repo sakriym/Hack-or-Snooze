@@ -50,3 +50,22 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Takes a single story, generates HTML and puts on page */
+
+function putStoryOnPage(story) {
+  console.log('putStoryOnPage called with story', story);
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.append($story);
+  //TODO: Decide whether to update the user's view here
+}
+
+/** Pulls data from the add story form, adds it to the storyList and
+ *  renders it to the DOM
+ */
+async function addStoryAndPutOnPage() {
+  //get form data
+  
+  //call addStory
+  //put on page
+}
