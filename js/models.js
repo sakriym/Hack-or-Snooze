@@ -79,11 +79,12 @@ class StoryList {
       token: user.loginToken,
       story: newStory,
     });
-    // send a post request to the server
-    // parse the servers request
-    // instantiate a new story using .data
-    // add the story to our .stories
-    // return the story
+
+    console.log('response from server:',response);
+
+    const story = new Story(response.data.story);
+    this.stories.push(story);
+    return story;
   }
 }
 

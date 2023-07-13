@@ -36,3 +36,15 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+
+/** When a user clicks on the navbar: submit link */
+
+function navSubmitClick(evt){
+  console.debug("navSubmitClick", evt);
+  evt.preventDefault();
+  hidePageComponents();
+  $submitFormContainer.show();
+}
+
+$navSubmit.on("click", navSubmitClick);
