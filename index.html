@@ -44,14 +44,6 @@
   </div>
 </nav>
 
-<!-- area for submitting new stories -->
-<section class="submit-form-container hidden">
-  <form action="" method="post">
-    <label for="author-input">author</label><input type="text" id="author-input">
-    <label for="title-input">title</label><input type="text" id="title-input">
-    <label for="url-input">url</label><input type="text" id="url-input">
-  </form>
-</section>
 
 <!-- area for stories (all stories, user stories, favorites) -->
 <section class="stories-container container">
@@ -63,6 +55,27 @@
   <ol id="all-stories-list" class="stories-list"></ol>
 
 </section>
+
+<!-- Form for submitting new stories -->
+<section class="add-form-container hidden">
+  <form id = "add-story-form" action="" method="post">
+    <div>
+      <label for="author-input">author</label>
+      <input type="text" id="author-input">
+    </div>
+    <div>
+      <label for="title-input">title</label>
+      <input type="text" id="title-input">
+    </div>
+    <div>
+      <label for="url-input">url</label>
+      <input type="text" id="url-input">
+    </div>
+    <button type="submit">Submit</button>
+    <hr>
+  </form>
+</section>
+
 
 <!-- Login and signup forms -->
 <section class="account-forms-container container">

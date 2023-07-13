@@ -44,7 +44,7 @@ function navSubmitClick(evt){
   console.debug("navSubmitClick", evt);
   evt.preventDefault();
   hidePageComponents();
-  $submitFormContainer.show();
+  $addFormContainer.show();
 }
 
 $navSubmit.on("click", navSubmitClick);
