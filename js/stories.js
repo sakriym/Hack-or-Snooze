@@ -63,9 +63,22 @@ function putStoryOnPage(story) {
 /** Pulls data from the add story form, adds it to the storyList and
  *  renders it to the DOM
  */
-async function addStoryAndPutOnPage() {
+async function handleAddStorySubmit(evt) {
+  console.log('handle Add Story And Submit: ', evt);
+  evt.preventDefault();
   //get form data
-  
+  const author = $("#author-input").val();
+  const title = $("#title-input").val();
+  const url = $("#url-input").val();
+  const newStoryData = {
+    author: author,
+    title: title,
+    url: url,
+  };
   //call addStory
+  const story = await storyList.addStory(newStoryData);
   //put on page
+  putStoryOnPage(story);
 }
+
+$addStoryForm.on('submit', handleAddStorySubmit);

@@ -8,7 +8,7 @@ const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 
 const $addFormContainer = $('.add-form-container');
-
+const $addStoryForm = $('#add-story-form');
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
