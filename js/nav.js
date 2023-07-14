@@ -40,7 +40,7 @@ function updateNavOnLogin() {
 
 /** When a user clicks on the navbar: submit link */
 
-function navSubmitClick(evt){
+function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   evt.preventDefault();
   // hidePageComponents();

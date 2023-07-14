@@ -21,10 +21,12 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      <span class="star">
+      <i class="far fa-star"></i>
+    </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -34,6 +36,18 @@ function generateStoryMarkup(story) {
       </li>
     `);
 }
+
+/** create an event listener for when click on star for favorite
+ * add to the favorites list */
+function handleFavoriteClick(evt) {
+  evt.preventDefault();
+  // stories-container container
+  // click in the container for the class --- class="far fa-star
+  // then add the story to the favorites list
+  currentUser.favorite();
+}
+
+
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
@@ -63,7 +77,7 @@ function putStoryOnPage(story) {
 /** Pulls data from the add story form, adds it to the storyList and
  *  renders it to the DOM
  */
-async function addStory(evt) {
+async function addStoryAndDisplay(evt) {
   console.log('handle Add Story And Submit: ', evt);
   evt.preventDefault();
   //get form data
@@ -81,4 +95,4 @@ async function addStory(evt) {
   putStoryOnPage(story);
 }
 
-$addStoryForm.on('submit', addStory);
+$addStoryForm.on('submit', addStoryAndDisplay);

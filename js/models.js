@@ -32,13 +32,13 @@ class Story {
 
   /**Takes an id and interacts with the API to return a Story instance */
 
-  static async getStoryByID (id) {
+  static async getStoryByID(id) {
 
     const response = axios.get(
       `https://hack-or-snooze-v3.herokuapp.com/stories/${id}`
     );
-    console.log('getStoryByID server response:',response);
-    let story = new Story({...response});
+    console.log('getStoryByID server response:', response);
+    let story = new Story({ ...response });
     console.log(story);
 
     return story;
@@ -234,7 +234,7 @@ class User {
    * input: Story instance
    * send a request to API for un-favoriting and updates user favorites
   */
- 
+
   async favorite(story) { //TODO: should this take an id?
     console.log('Favorite Story: ', story);
     // access user favorite
@@ -260,9 +260,9 @@ class User {
     const indexToSplice = this.favorites.findIndex(
       story => story.id === storyToUnfavorite.id
     );
-    this.favorites = this.favorites.splice(indexToSplice,1);
+    this.favorites = this.favorites.splice(indexToSplice, 1);
 
-    const postRequestURL =  (
+    const postRequestURL = (
       `${BASE_URL}/users/` +
       `${currentUser.username}/favorites/${storyToUnfavorite.storyId}`
     );
