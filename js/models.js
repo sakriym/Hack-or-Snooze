@@ -75,14 +75,14 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    console.log('addStory called with user',user,'newStory',newStory);
+    console.log('addStory called with user', user, 'newStory', newStory);
     // UNIMPLEMENTED: complete this function!
     const response = await axios.post(`${BASE_URL}/stories`, {
       token: user.loginToken,
       story: newStory,
     });
 
-    console.log('response from server:',response);
+    console.log('response from server:', response);
 
     const story = new Story(response.data.story);
     this.stories.unshift(story);
@@ -205,4 +205,39 @@ class User {
       return null;
     }
   }
+
+  /** create a method that allows user to favorite a story
+   * input: Story instance
+   * send a request to API for favoriting
+  */
+  async favorite(story) {
+    console.log('Favorite Story: ', story);
+    // access user favorite
+    // add the story to the list
+    currentUser.favorites.push(story);
+    const response = await axios.post(
+      `${BASE_URL}/users/${currentUser}/favorites/${story.id}`,
+      { token: currentUser.loginToken }
+    );
+  }
+
+
+  /** create a method that allows user to un-favorite a story
+   * input: Story instance
+   * send a request to API for un-favoriting
+   */
+  async unFavorite(story) {
+    console.log('Favorite Story: ', story);
+    // access user favorite
+    // add the story to the list
+    currentUser.favorites.push(story);
+    const response = await axios.post(
+      `${BASE_URL}/users/${currentUser}/favorites/${story.id}`,
+      { token: currentUser.loginToken }
+    );
+  }
+
+  // test case:
+  //let story = storyList.stories[0];   // grab first story on list
+  //currentUser.addFavorite(story);
 }
