@@ -229,8 +229,11 @@ class User {
   async unFavorite(story) {
     console.log('Favorite Story: ', story);
     // access user favorite
-    // add the story to the list
-    currentUser.favorites.push(story);
+    // remove the story to the list
+
+    //TODO: Check if remove works
+    const remove = this.favorites.find(element => element === story);
+
     const response = await axios.post(
       `${BASE_URL}/users/${currentUser}/favorites/${story.id}`,
       { token: currentUser.loginToken }
