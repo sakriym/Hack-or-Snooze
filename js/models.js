@@ -47,7 +47,7 @@ class Story {
       url: response.data.story.url,
       username: response.data.story.username,
       createdAt: response.data.story.createdAt
-     });
+    });
 
     console.log(story);
 
@@ -268,9 +268,9 @@ class User {
     // remove the story to the list
 
     const indexToSplice = this.favorites.findIndex(
-      story => story.id === storyToUnfavorite.id
+      story => story.storyId === storyToUnfavorite.storyId
     );
-    this.favorites = this.favorites.splice(indexToSplice, 1);
+    this.favorites.splice(indexToSplice, 1);
 
     const postRequestURL = (
       `${BASE_URL}/users/` +

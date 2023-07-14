@@ -57,21 +57,28 @@ async function handleFavoriteClick(evt) {
       favStory => favStory.storyId === story.storyId
     )) {
     await currentUser.favorite(story);
+    console.log('find star: ', $(evt.target));
     $(evt.target)
-      .find('.bi')
       .addClass('bi-star-fill')
       .removeClass('bi-star');
   } else {
     await currentUser.unFavorite(story);
     $(evt.target)
-      .find('.bi')
       .addClass('bi-star')
       .removeClass('bi-star-fill');
   }
 }
 
 //TODO: event delegate for handleFavorite Click
-$allStoriesList.on('click', $('.star'), handleFavoriteClick);
+$allStoriesList.on('click', '.bi-star', handleFavoriteClick);
+
+/** create a function for marking as favorite
+ * check if story is in our favorite list
+ * if so, render the DOM as star being filled in
+*/
+
+/** create a function for marking as unfavorite */
+
 
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
