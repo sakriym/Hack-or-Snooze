@@ -24,9 +24,9 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-      <span class="star">
-      <i class="far fa-star"></i>
-    </span>
+        <span class="star">
+           <i class="far fa-star"></i>
+         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -41,12 +41,27 @@ function generateStoryMarkup(story) {
  * add to the favorites list */
 function handleFavoriteClick(evt) {
   evt.preventDefault();
-  // stories-container container
-  // click in the container for the class --- class="far fa-star
-  // then add the story to the favorites list
-  currentUser.favorite();
+
+  const id = $(evt.target).closest('li').attr('id');
+  const story = Story.getStoryByID(id);
+
+  if (currentUser.favorites.includes(story)){  //if story is not favorite
+    currentUser.favorite(story);
+    $(evt.target)
+      .find('.fa-star')
+      .addClass('fas')
+      .removeClass('far');
+  } else {
+    currentUser.unfavorite(story);
+    $(evt.target)
+      .find('.fa-star')
+      .addClass('far')
+      .removeClass('fas');
+  }
 }
 
+//TODO: event delegate for handleFavorite Click
+$allStoriesList.on('click', $('.star'), handleFavoriteClick);
 
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
