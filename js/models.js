@@ -34,11 +34,21 @@ class Story {
 
   static async getStoryByID(id) {
 
-    const response = axios.get(
+    const response = await axios.get(
       `https://hack-or-snooze-v3.herokuapp.com/stories/${id}`
     );
+
     console.log('getStoryByID server response:', response);
-    let story = new Story({ ...response });
+
+    const story = new Story({
+      storyId: response.data.story.storyId,
+      title: response.data.story.title,
+      author: response.data.story.author,
+      url: response.data.story.url,
+      username: response.data.story.username,
+      createdAt: response.data.story.createdAt
+     });
+
     console.log(story);
 
     return story;

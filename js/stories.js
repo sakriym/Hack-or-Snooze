@@ -37,18 +37,25 @@ function generateStoryMarkup(story) {
     `);
 }
 
+//TODO: getStoryElementByID function (id)
+
+
 /** create an event listener for when click on star for favorite
  * add to the favorites list */
 async function handleFavoriteClick(evt) {
   evt.preventDefault();
 
-  console.log('Evt Target: ', evt.target);
-  //TODO: POSSIBLY break down below line
-  const id = $(evt.target).closest('li').data('id');
-  console.log('id: ', id);
+  //console.log('Evt Target: ', evt.target);
+  const $li = $(evt.target).closest('li');
+  //console.log('closest li', $li);
+  const id = $li.attr('id');
+  //console.log('id: ', id);
   const story = await Story.getStoryByID(id);
 
-  if (currentUser.favorites.includes(story)) {  //if story is not favorite
+  if (!currentUser.favorites  //if story is not favorite
+    .some(
+      favStory => favStory.storyId === story.storyId
+    )) {
     await currentUser.favorite(story);
     $(evt.target)
       .find('.bi')
