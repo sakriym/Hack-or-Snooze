@@ -25,7 +25,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}">
         <span class="star">
-           <i class="far fa-star"></i>
+           <i class="bi bi-star"></i>
          </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -39,24 +39,27 @@ function generateStoryMarkup(story) {
 
 /** create an event listener for when click on star for favorite
  * add to the favorites list */
-function handleFavoriteClick(evt) {
+async function handleFavoriteClick(evt) {
   evt.preventDefault();
 
-  const id = $(evt.target).closest('li').attr('id');
-  const story = Story.getStoryByID(id);
+  console.log('Evt Target: ', evt.target);
+  //TODO: POSSIBLY break down below line
+  const id = $(evt.target).closest('li').data('id');
+  console.log('id: ', id);
+  const story = await Story.getStoryByID(id);
 
-  if (currentUser.favorites.includes(story)){  //if story is not favorite
-    currentUser.favorite(story);
+  if (currentUser.favorites.includes(story)) {  //if story is not favorite
+    await currentUser.favorite(story);
     $(evt.target)
-      .find('.fa-star')
-      .addClass('fas')
-      .removeClass('far');
+      .find('.bi')
+      .addClass('bi-star-fill')
+      .removeClass('bi-star');
   } else {
-    currentUser.unfavorite(story);
+    await currentUser.unFavorite(story);
     $(evt.target)
-      .find('.fa-star')
-      .addClass('far')
-      .removeClass('fas');
+      .find('.bi')
+      .addClass('bi-star')
+      .removeClass('bi-star-fill');
   }
 }
 
