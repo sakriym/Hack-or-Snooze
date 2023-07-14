@@ -23,7 +23,7 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
   const hostName = story.getHostName();
   return $(`
-      <li id="${story.storyId}">
+      <li class="story" id="${story.storyId}">
         <span class="star">
            <i class="bi bi-star"></i>
          </span>
@@ -45,41 +45,53 @@ function generateStoryMarkup(story) {
 async function handleFavoriteClick(evt) {
   evt.preventDefault();
 
-  //console.log('Evt Target: ', evt.target);
-  const $li = $(evt.target).closest('li');
-  //console.log('closest li', $li);
-  const id = $li.attr('id');
-  //console.log('id: ', id);
+  const $story = $(evt.target).closest('.story');
+  const id = $story.attr('id');
   const story = await Story.getStoryByID(id);
 
-  if (!currentUser.favorites  //if story is not favorite
-    .some(
-      favStory => favStory.storyId === story.storyId
-    )) {
+
+  if (!checkIsFavorite(story)) {  // favorite if not a favorite
     await currentUser.favorite(story);
-    console.log('find star: ', $(evt.target));
-    $(evt.target)
-      .addClass('bi-star-fill')
-      .removeClass('bi-star');
-  } else {
+    markStoryAsFavorite($story);
+  } else {  //otherwise unfavorite
     await currentUser.unFavorite(story);
-    $(evt.target)
-      .addClass('bi-star')
-      .removeClass('bi-star-fill');
+    unMarkStoryAsFavorite($story);
   }
 }
 
-//TODO: event delegate for handleFavorite Click
-$allStoriesList.on('click', '.bi-star', handleFavoriteClick);
+$allStoriesList.on('click', '.bi', handleFavoriteClick);
 
-/** create a function for marking as favorite
- * check if story is in our favorite list
- * if so, render the DOM as star being filled in
-*/
+/** Takes a jQuery element and marks it as a favorite */
 
-/** create a function for marking as unfavorite */
+function markStoryAsFavorite ($story) {
+  console.log('markStoryAsFavorite')
+  const $star = $story.find('.bi');
+  $star
+    .addClass('bi-star-fill')
+    .removeClass('bi-star');
+} //FIXME: this should look for .star, not .bi
+
+/** Takes a story DOM element and marks it as not a favorite */
+
+function unMarkStoryAsFavorite ($story) {
+  console.log('unMarkStoryAsFavorite')
+  const $star = $story.find('.bi');
+  $($star)
+    .addClass('bi-star')
+    .removeClass('bi-star-fill');
+} //FIXME: this should look for .star, not .bi
 
 
+
+/** checks if a story is on the favorites list */
+function checkIsFavorite(story) {
+  return (
+    currentUser.favorites.some(
+     favStory => favStory.storyId === story.storyId
+     )
+  )
+
+}
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
@@ -92,6 +104,7 @@ function putStoriesOnPage() {
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
+    if (checkIsFavorite(story)){markStoryAsFavorite($story)}
   }
 
   $allStoriesList.show();

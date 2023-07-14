@@ -254,7 +254,7 @@ class User {
       `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
       { token: currentUser.loginToken }
     );
-    console.log('response from server:', response);
+    console.log('favorite response from server:', response);
   }
 
 
@@ -281,5 +281,7 @@ class User {
       postRequestURL,
       { token: currentUser.loginToken }
     );
+    console.log("unfavorite server response:", response);
   }
 }
+
