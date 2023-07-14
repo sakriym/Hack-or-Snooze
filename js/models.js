@@ -28,6 +28,21 @@ class Story {
     let url = new URL(this.url);
     return url.hostname;
   }
+
+
+  /**Takes an id and interacts with the API to return a Story instance */
+
+  static async getStoryByID (id) {
+
+    const response = axios.get(
+      `https://hack-or-snooze-v3.herokuapp.com/stories/${id}`
+    );
+    console.log('getStoryByID server response:',response);
+    let story = new Story({...response});
+    console.log(story);
+
+    return story;
+  }
 }
 
 
@@ -121,6 +136,10 @@ class User {
     this.loginToken = token;
   }
 
+
+  /************************ USER TOKEN METHODS ********************************/
+
+
   /** Register new user in API, make User instance & return it.
    *
    * - username: a new username
@@ -206,41 +225,51 @@ class User {
     }
   }
 
+
+
+  /*************************FAVORITES LIST METHODS ****************************/
+
+
   /** create a method that allows user to favorite a story
    * input: Story instance
-   * send a request to API for favoriting
+   * send a request to API for un-favoriting and updates user favorites
   */
-  async favorite(story) {
+ 
+  async favorite(story) { //TODO: should this take an id?
     console.log('Favorite Story: ', story);
     // access user favorite
     // add the story to the list
     currentUser.favorites.push(story);
-    const response = await axios.post(
-      `${BASE_URL}/users/${currentUser}/favorites/${story.id}`,
+    const response = await axios.post( //save response for error handling later
+      `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
       { token: currentUser.loginToken }
     );
+    console.log('response from server:', response);
   }
 
 
-  /** create a method that allows user to un-favorite a story
+  /**Allows user to un-favorite a story
    * input: Story instance
-   * send a request to API for un-favoriting
+   * send a request to API for un-favoriting and updates user favorites
    */
-  async unFavorite(story) {
-    console.log('Favorite Story: ', story);
+  async unFavorite(storyToUnfavorite) {
+    console.log('unFavorite Story: ', storyToUnfavorite);
     // access user favorite
     // remove the story to the list
 
-    //TODO: Check if remove works
-    const remove = this.favorites.find(element => element === story);
+    const indexToSplice = this.favorites.findIndex(
+      story => story.id === storyToUnfavorite.id
+    );
+    this.favorites = this.favorites.splice(indexToSplice,1);
 
-    const response = await axios.post(
-      `${BASE_URL}/users/${currentUser}/favorites/${story.id}`,
+    const postRequestURL =  (
+      `${BASE_URL}/users/` +
+      `${currentUser.username}/favorites/${storyToUnfavorite.storyId}`
+    );
+
+    const response = await axios.post( //save response for error handling later
+      postRequestURL,
       { token: currentUser.loginToken }
     );
   }
-
-  // test case:
-  //let story = storyList.stories[0];   // grab first story on list
-  //currentUser.addFavorite(story);
 }
