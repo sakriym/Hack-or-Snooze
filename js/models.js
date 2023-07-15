@@ -270,18 +270,18 @@ class User {
     const indexToSplice = this.favorites.findIndex(
       story => story.storyId === storyToUnfavorite.storyId
     );
+    //TODO: Remove from list and send to API
     this.favorites.splice(indexToSplice, 1);
 
     const postRequestURL = (
       `${BASE_URL}/users/` +
       `${currentUser.username}/favorites/${storyToUnfavorite.storyId}`
     );
-
-    const response = await axios.post( //save response for error handling later
+    //TODO: ADDED Delete and removed Post in axios
+    const response = await axios.delete( //save response for error handling later
       postRequestURL,
       { token: currentUser.loginToken }
     );
     console.log("unfavorite server response:", response);
   }
 }
-
